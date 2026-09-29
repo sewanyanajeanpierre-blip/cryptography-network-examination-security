@@ -1,0 +1,602 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% =========================================================
+% PACKAGES
+% =========================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+
+% =========================================================
+% PAGE SETTINGS
+% =========================================================
+
+\geometry{
+    a4paper,
+    margin=1in
+}
+
+% =========================================================
+% HYPERLINK SETTINGS
+% =========================================================
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+% =========================================================
+% CODE COLORS
+% =========================================================
+
+\definecolor{codegreen}{rgb}{0,0.55,0}
+\definecolor{codegray}{rgb}{0.45,0.45,0.45}
+\definecolor{codeblue}{rgb}{0,0,0.75}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.94}
+
+% =========================================================
+% CODE STYLE
+% =========================================================
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{magenta},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% =========================================================
+% TITLE
+% =========================================================
+
+\title{
+    \textbf{Technical Report}\\[1.3cm]
+    \large Cryptography and Network Security\\
+    \large Integrated Security 
+}
+
+\author{
+    SEWANYANA Jeanpierre\\
+    Student ID: \textbf{4202670041}
+}
+
+\date{\today}
+
+% =========================================================
+% DOCUMENT
+% =========================================================
+
+\begin{document}
+
+\begin{titlepage}
+
+\centering
+
+\vspace*{5\textbf{}cm}
+
+{\Large \textbf{ Cryptography and Network Security}\par}
+
+\vspace{1.5cm}
+
+{\Huge \textbf{Technical Report Of Integrated Security Situation}\par}
+
+
+\vspace{3.5cm}
+
+{\large
+\textbf{Student Name:} SEWANYANA Jeanpierre
+\par}
+
+\vspace{0.6cm}
+
+{\large
+\textbf{Student ID:} 4202670041
+\par}
+
+\vspace{0.4cm}
+
+\vfill
+
+{\large \today\par}
+
+\end{titlepage}
+
+% =========================================================
+% INTRODUCTION
+% =========================================================
+
+\section{Introduction}
+
+This technical report presents the security assessment and security controls implemented for the Polytechnic Institute's central student records system.
+
+The work focuses on four main areas:
+
+\begin{enumerate}
+    \item Identification and assessment of information-security risks.
+    \item Implementation and testing of cryptographic functions.
+    \item Configuration and testing of firewall access-control rules.
+    \item Documentation of the completed work and project repository.
+\end{enumerate}
+
+The objective is to protect student records against unauthorized access, disclosure, modification, and unauthorized network access.
+
+% =========================================================
+% QUESTION 5(a)
+% =========================================================
+
+\section{Risk Assessment (Question 5.a)}
+
+\subsection{Identified Assets}
+
+The following assets were identified as important components of the student records environment.
+
+\begin{table}[htbp]
+\centering
+\caption{Identified Security Assets}
+\begin{tabular}{p{4cm} p{9cm}}
+\toprule
+\textbf{Asset} & \textbf{Description} \\
+\midrule
+
+Student Records Database &
+Contains sensitive student information, academic results, personal details, and administrative records. \\
+
+Central Records Server &
+Hosts the database and applications used by authorized administrative staff to manage student records. \\
+
+Inter-Campus Network &
+Provides communication between the main campus and satellite campuses for transferring and accessing institutional information. \\
+
+Network Infrastructure &
+Includes routers, switches, firewalls, wireless networks, and other components required to provide secure connectivity. \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Identified Vulnerabilities}
+
+Three major vulnerabilities were identified.
+
+\begin{enumerate}
+
+    \item \textbf{Weak Staff Passwords}
+
+    Weak passwords can be vulnerable to brute-force and password-guessing attacks. If an employee account is compromised, an attacker may gain unauthorized access to student information.
+
+    \item \textbf{Unencrypted Inter-Campus File Transfers}
+
+    If sensitive student records are transferred using plaintext protocols, an attacker positioned on the network may intercept or modify the transmitted information.
+
+    \item \textbf{Guest Network Access to the Records Server}
+
+    If the guest wireless network can directly communicate with the production records server, an unauthorized device connected to the guest network may attempt to access or attack the server.
+
+\end{enumerate}
+
+\subsection{Risk Rankings}
+
+Risk was evaluated according to likelihood and impact.
+
+\begin{table}[htbp]
+\centering
+\caption{Risk Evaluation}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
+\toprule
+\textbf{Vulnerability} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Risk Level} \\
+\midrule
+
+Weak Staff Passwords &
+High &
+High &
+High \\
+
+Guest Network Access &
+Medium &
+High &
+High \\
+
+Unencrypted File Transfers &
+Medium &
+Medium &
+Medium \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Recommended Security Controls}
+
+The following controls are recommended to reduce the identified risks.
+
+\begin{table}[htbp]
+\centering
+\caption{Recommended Security Controls}
+\begin{tabular}{p{5cm} p{9cm}}
+\toprule
+\textbf{Risk} & \textbf{Recommended Control} \\
+\midrule
+
+Weak Staff Passwords &
+Enforce strong password policies, account lockout controls, and Multi-Factor Authentication (MFA). \\
+
+Guest Network Access &
+Implement network segmentation and firewall rules to separate guest networks from production systems. \\
+
+Unencrypted File Transfers &
+Use secure protocols such as SFTP, HTTPS, or VPN tunnels to protect data during transmission. \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================================
+% QUESTION 5(b)
+% =========================================================
+
+\newpage
+
+\section{Cryptographic Functions and Test Evidence (Question 5.b)}
+
+The cryptographic component was developed to protect the confidentiality and integrity of student records.
+
+Three main functions were implemented:
+
+\begin{enumerate}
+    \item File encryption.
+    \item File decryption.
+    \item Integrity verification using SHA-256.
+\end{enumerate}
+
+\subsection{Encryption Function}
+
+The encryption function reads the original plaintext file:
+
+\begin{center}
+\texttt{student\_records.csv}
+\end{center}
+
+The file is encrypted using the Python \texttt{cryptography} library and the Fernet symmetric encryption mechanism.
+
+Fernet provides authenticated symmetric encryption using AES-128 in CBC mode together with HMAC-SHA256 for authentication.
+
+The encryption key is stored locally in:
+
+\begin{center}
+\texttt{secret.key}
+\end{center}
+
+The key must not be uploaded to the public GitHub repository.
+
+The encrypted output is stored as:
+
+\begin{center}
+\texttt{student\_records.enc}
+\end{center}
+
+\subsubsection{Encryption Test Evidence}
+
+The following terminal output demonstrates successful key generation and encryption.
+
+\begin{lstlisting}[
+    style=mystyle,
+    caption={Encryption Test Evidence}
+]
+[!] New key generated and saved locally to 'secret.key'.
+[!] Created dummy test file 'student_records.csv'
+[+] File 'student_records.csv' successfully encrypted to 'student_records.enc'.
+\end{lstlisting}
+
+\subsection{Decryption Function}
+
+The decryption function uses the same symmetric key to decrypt the encrypted file.
+
+The encrypted file:
+
+\begin{center}
+\texttt{student\_records.enc}
+\end{center}
+
+is converted back into a readable CSV file:
+
+\begin{center}
+\texttt{student\_records\_decrypted.csv}
+\end{center}
+
+The purpose of this process is to demonstrate that an authorized user possessing the correct cryptographic key can recover the original information.
+
+\subsubsection{Decryption Test Evidence}
+
+The following terminal output demonstrates successful decryption.
+
+\begin{lstlisting}[
+    style=mystyle,
+    caption={Decryption Test Evidence}
+]
+[+] File 'student_records.enc' successfully decrypted to 'student_records_decrypted.csv'.
+\end{lstlisting}
+
+\subsection{Integrity Verification Function}
+
+Encryption protects confidentiality, but an additional mechanism is required to verify that the recovered file has not been modified.
+
+For this purpose, the SHA-256 cryptographic hash function was used.
+
+A SHA-256 hash is calculated for:
+
+\begin{enumerate}
+    \item The original student records file.
+    \item The decrypted student records file.
+\end{enumerate}
+
+If both hash values are identical, the contents of the two tested files are identical.
+
+\subsubsection{Integrity Test Evidence}
+
+The following test demonstrates that the original and decrypted files produced the same SHA-256 hash.
+
+\begin{lstlisting}[
+    style=mystyle,
+    caption={SHA-256 Integrity Verification}
+]
+[*] Original SHA-256:
+a8b7ceb5e14a52856decd5414720709a847bf93b76266cb39df00bdeee1b71f9
+
+[*] Decrypted SHA-256:
+a8b7ceb5e14a52856decd5414720709a847bf93b76266cb39df00bdeee1b71f9
+
+[+] Integrity Verification: Success! Files match perfectly.
+\end{lstlisting}
+
+\subsection{Cryptographic Test Results}
+
+\begin{table}[htbp]
+\centering
+\caption{Cryptographic Test Results}
+\begin{tabular}{p{4.5cm} p{4cm} p{4cm}}
+\toprule
+\textbf{Function} & \textbf{Expected Result} & \textbf{Test Result} \\
+\midrule
+
+Encryption &
+Plaintext converted to ciphertext &
+Successful \\
+
+Decryption &
+Ciphertext recovered as plaintext &
+Successful \\
+
+SHA-256 Integrity Check &
+Original and decrypted hashes match &
+Successful \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================================
+% QUESTION 5(c)
+% =========================================================
+
+\newpage
+
+\section{Firewall Configuration and Testing (Question 5.c)}
+
+Firewall access control was implemented using the Linux \texttt{iptables} firewall.
+
+The student records server used for the laboratory test has the IP address:
+
+\begin{center}
+\texttt{10.0.10.5}
+\end{center}
+
+The following networks were considered:
+
+\begin{itemize}
+    \item \textbf{Staff network:} \texttt{10.0.10.0/24}
+    \item \textbf{Guest network:} \texttt{192.168.50.0/24}
+\end{itemize}
+
+The HTTPS service is available on TCP port \texttt{443}.
+
+\subsection{Default Firewall Policy}
+
+A deny-by-default policy was configured so that packets are dropped unless an appropriate rule permits them.
+
+\begin{lstlisting}[
+    language=bash,
+    caption={Default Firewall Policy}
+]
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+\end{lstlisting}
+
+The following rules allow local loopback traffic and already established connections.
+
+\begin{lstlisting}[
+    language=bash,
+    caption={Basic Connection Handling Rules}
+]
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+\end{lstlisting}
+
+\subsection{Guest Network Blocking Rule}
+
+All incoming traffic originating from the guest network is blocked.
+
+\begin{lstlisting}[
+    language=bash,
+    caption={Guest Network Isolation Rule}
+]
+iptables -A INPUT -s 192.168.50.0/24 -j DROP
+\end{lstlisting}
+
+This prevents devices connected to the guest network from directly accessing the student records server.
+
+\subsection{Authorized Staff HTTPS Access}
+
+The staff network is permitted to access the HTTPS service on TCP port 443.
+
+\begin{lstlisting}[
+    language=bash,
+    caption={Authorized Staff HTTPS Rule}
+]
+iptables -A INPUT -s 10.0.10.0/24 -p tcp --dport 443 -j ACCEPT
+\end{lstlisting}
+
+Other HTTPS connections are blocked by the following rule:
+
+\begin{lstlisting}[
+    language=bash,
+    caption={Blocking Unauthorized HTTPS Access}
+]
+iptables -A INPUT -p tcp --dport 443 -j DROP
+\end{lstlisting}
+
+\subsection{Firewall Test Procedure}
+
+The firewall was tested using the following procedure:
+
+\begin{enumerate}
+
+    \item Start the student records server at IP address \texttt{10.0.10.5}.
+
+    \item Verify that the HTTPS service is listening on TCP port \texttt{443}.
+
+    \item From a computer connected to the authorized staff network, attempt to access the server.
+
+    \item Record whether the connection is permitted.
+
+    \item From a computer connected to the guest network, attempt to access the same server.
+
+    \item Record whether the connection is blocked.
+
+    \item Check the firewall counters using the following command:
+
+\begin{lstlisting}[language=bash]
+iptables -L INPUT -n -v
+\end{lstlisting}
+
+\end{enumerate}
+
+\subsection{Test 1: Permitted Staff Connection}
+
+The first test was performed from the authorized staff network.
+
+\begin{lstlisting}[
+    style=mystyle,
+    caption={Permitted Staff Connection Test}
+]
+[user@staff-pc]$ curl -k --connect-timeout 5 https://10.0.10.5
+
+HTTP/1.1 200 OK
+\end{lstlisting}
+
+\textbf{Expected Result:} The connection should be permitted because the source address belongs to the authorized staff subnet \texttt{10.0.10.0/24} and the destination service uses TCP port \texttt{443}.
+
+\textbf{Test Result:} The HTTPS connection was successfully permitted.
+
+\subsection{Test 2: Blocked Guest Connection}
+
+The second test was performed from the guest network.
+
+\begin{lstlisting}[
+    style=mystyle,
+    caption={Blocked Guest Connection Test}
+]
+[user@guest-pc]$ curl -k --connect-timeout 5 https://10.0.10.5
+
+curl: (28) Connection timed out
+\end{lstlisting}
+
+\textbf{Expected Result:} The connection should be blocked because the source address belongs to the guest subnet \texttt{192.168.50.0/24}.
+
+\textbf{Test Result:} The connection was successfully blocked.
+
+\subsection{Firewall Test Results}
+
+\begin{table}[htbp]
+\centering
+\caption{Firewall Test Results}
+\begin{tabular}{p{3.5cm} p{3cm} p{3cm} p{3cm}}
+\toprule
+\textbf{Test} & \textbf{Source Network} & \textbf{Expected} & \textbf{Result} \\
+\midrule
+
+Staff HTTPS Access &
+10.0.10.0/24 &
+Permitted &
+Successful \\
+
+Guest HTTPS Access &
+192.168.50.0/24 &
+Blocked &
+Blocked \\
+
+Unauthorized HTTPS Access &
+Other Networks &
+Blocked &
+Blocked \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+The firewall tests demonstrate both permitted and blocked connection scenarios. Authorized staff traffic can access the HTTPS service, while unauthorized guest traffic is prevented from accessing the student records server.
+
+% =========================================================
+% QUESTION 5(d)
+% =========================================================
+
+\newpage
+
+\section{Conclusion and GitHub Repository (Question 5.d)}
+
+\subsection{Conclusion}
+
+This project implemented and evaluated several security controls for a central student records system.
+
+The risk assessment identified important assets, vulnerabilities, risk levels, and recommended security controls. The main risks considered were weak staff passwords, unencrypted file transfers, and unauthorized access from the guest network.
+
+Cryptographic functions were implemented to protect the student records. The encryption test successfully converted the plaintext file into encrypted data, while the decryption test successfully recovered the data. The SHA-256 integrity test produced matching hash values for the original and decrypted files.
+
+A Linux \texttt{iptables} firewall was also configured using a deny-by-default approach. Authorized staff users were permitted to access the HTTPS service, while users from the guest network were blocked. The firewall tests demonstrated both permitted and blocked connection scenarios.
+
+The combination of risk assessment, cryptographic protection, integrity verification, and network access control provides multiple layers of protection for the student records environment.
+
+\subsection{GitHub Repository}
+
+The complete project, including the source code and compiled PDF report, is available in the following GitHub repository:
+
+\begin{center}
+\url{https://https://github.com/sewanyanajeanpierre-blip/cryptography-network-examination-security}
+\end{center}
+
+% =========================================================
+% END OF DOCUMENT
+% =========================================================
+
+\end{document}
+```
